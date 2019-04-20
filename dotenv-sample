@@ -1,0 +1,10 @@
+VIRTUALHOST=PUT_YOUR_HOSTNAME_HERE
+
+# I run certbot to create the SSL files and it puts them here.
+# You can do it your own way.
+
+SSL_CERT=/etc/letsencrypt/live/PUT_YOUR_HOSTNAME_HERE/fullchain.pem
+SSL_KEY=/etc/letsencrypt/live/PUT_YOUR_HOSTNAME_HERE/privkey.pem
+
+SSL_DHPARAMS=/etc/ssl/dhparams.pem
+

@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    image: nginx
+    container_name: nginx-${VIRTUALHOST}
+    # No amount of escapishness with envsubst worked for me, not backslashes or dollar signs... so, 'sed' rescues me.
+    command: /bin/bash -c "sed 's/%VIRTUALHOST%/${VIRTUALHOST}/' < /etc/nginx/conf.d/virtualhost.conf.template > /etc/nginx/conf.d/virtualhost.conf && nginx -g 'daemon off;'"
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - type: bind
+        source: ./virtualhost.conf.template
+        target: /etc/nginx/conf.d/virtualhost.conf.template
+
+      - type: bind
+        source: ${SSL_CERT}
+        target: /tmp/ssl_cert.pem
+
+      - type: bind
+        source: ${SSL_KEY}
+        target: /tmp/ssl_key.pem
+
+      - type: bind
+        source: ${SSL_DHPARAMS}
+        target: /tmp/dhparams.pem
+
+      - type: bind
+        source: ./static_content/
+        target: /var/www/html/
+
